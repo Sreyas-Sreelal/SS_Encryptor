@@ -3,12 +3,12 @@
 #include<conio.h>
 #include<stdio.h>
 #include<string.h>
-
+#include<process.h>
 /*
 
 Data Transfer  Tool Scripted by Sreyas
 
-.............Capabilities.......................... 
+.............Capabilities..........................
 |*Custom data encrypting algorithm  71 ascii       |
 |*Custom Decrypting algorithm       71 ascii       |
 |*Stores data in .dat file for remote transfering  |
@@ -35,12 +35,14 @@ public:
 __ss()
 {
 }
-
 string _charlt;
 void Input();
 void Output()
 {
 cout<<_charlt;
+}
+~__ss()
+{
 }
 };
 
@@ -57,17 +59,19 @@ void make()
 {
 inti();
 ofstream fout("bin.dat",ios::out);
-cout<<"Input your data to be encrypted \n";
 __ss::Input();
 encrypt();
 fout<<_charlt;
 fout.close();
+cout<<"\n!!!!Encrypted File created successfully !!!\n";
+cout<<"Press any key to continue \n";
+getch();
 }
 
 void encrypt();
 void ency(int);
 void decrypt();
-
+char decy(char);
 }s;
 
 void __ss::Input()
@@ -75,7 +79,6 @@ void __ss::Input()
 int n;
 cout<<"Input number of lines ";
 cin>>n;
-cout<<"Input data \n";
 char _dtemp[100];
 for(int i=0;i<n;i++)
 {
@@ -87,28 +90,43 @@ strcat(_charlt,"\n");
 void _process::decrypt()
 {
 inti();
-int i,j,x=0;
-char _dtemp;
+int i;
+char _dtemp[56];
 string data_;
 ifstream fin("bin.dat",ios::in);
 fin.seekg(0);
 while(!fin.eof())
 {
-fin.get(_dtemp);
-for(i=0;i<strlen(__ss::E_CHAR);i++)
+fin>>_dtemp;
+for(i=0;i<strlen(_dtemp);i++)
 {
-if(_dtemp==__ss::E_CHAR[i])
-{
-data_[x]=__ss::_charft[i];
-x++;
+_dtemp[i] = decy(_dtemp[i]);
 }
-}
+strcat(data_,_dtemp);
+strcat(data_," ");
 }
 fin.close();
-cout<<"Decrypted Successfully \n\n";
-for(i=0;i<x;i++)
+cout<<"\n...........Decrypted Successfully..........\n\n";
+for(i=0;i<strlen(data_);i++)
 cout<<data_[i];
+cout<<endl;
+cout<<"Press any key to continue \n";
+getch();
 }
+
+char _process::decy(char chara)
+{
+for(int j=0;j<strlen(__ss::E_CHAR);j++)
+{
+if(chara==__ss::E_CHAR[j])
+{
+chara=__ss::_charft[j];
+break;
+}
+}
+return chara;
+}
+
 void _process::encrypt()
 {
 int i;
@@ -116,6 +134,7 @@ int i;
 for(i=0;i<strlen(__ss::_charlt);i++)
 ency(i);
 }
+
 void _process::ency(int x)
 {
 for(int i=0;i<strlen(__ss::_charft);i++)
@@ -127,11 +146,35 @@ break;
 }
 }
 }
+
 void main()
 {
 clrscr();
+int opt;
+while(1)
+{
+clrscr();
+cout<<"\n\n\
+1.Make Encrypted file\n\
+2.Decrypt existing  file\n\
+3.Close the Application\n";
+cout<<"\nInput your option : ";
+cin>>opt;
+switch(opt)
+{
+case 1:
 s.make();
+break;
+case 2:
 s.decrypt();
+break;
+case 3:
+exit(0);
+default:
+cout<<"Wrong Option selected select correct option from the list \n";
+break;
+}
+}
 getch();
 }
 
