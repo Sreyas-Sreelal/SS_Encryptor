@@ -74,7 +74,7 @@ public:
     void ency(int);
     void decrypt();
     char decy(char);
-} s;
+};
 
 void __ss::Input()
 {
@@ -153,6 +153,7 @@ void main()
 {
     clrscr();
     int opt;
+    _process s;
     while (1)
     {
         clrscr();
